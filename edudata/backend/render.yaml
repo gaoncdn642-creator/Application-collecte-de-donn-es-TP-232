@@ -1,0 +1,21 @@
+services:
+  - type: web
+    name: edudata-cameroun-api
+    runtime: python
+    buildCommand: "pip install -r requirements.txt"
+    startCommand: "gunicorn app:app"
+    envVars:
+      - key: DATABASE_URL
+        fromDatabase:
+          name: edudata-db
+          property: connectionString
+      - key: SECRET_KEY
+        generateValue: true
+      - key: DEBUG
+        value: "false"
+
+databases:
+  - name: edudata-db
+    databaseName: edudata
+    user: edudata_user
+    plan: free
